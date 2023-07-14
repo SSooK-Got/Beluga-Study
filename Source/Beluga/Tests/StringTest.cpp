@@ -44,7 +44,7 @@ bool FBelugaStringTest::RunTest(const FString& Parameters)
 
 	FString strApple(TEXT("Apple"));
 	FString strBanana(TEXT("Banana"));
-
+	
 	// Operators
 	{
 		// []
@@ -65,5 +65,43 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(FBelugaNameTest, "Beluga.Name", EAutomationTest
 
 bool FBelugaNameTest::RunTest(const FString& Parameters)
 {
+	FName nameChar(TEXT("name"));
+	FName nameChar2(TEXT("NAME"));
+	FName newName(TEXT("NewName"));
+
+	// Operator
+	{
+		// ==
+		TestEqual(TEXT("Operator =="), nameChar == nameChar2, true);
+		TestEqual(TEXT("Operator !="), nameChar != newName, true);
+	}
+
+	// Index
+	{
+		TestEqual(TEXT("ComparisonIndex"), nameChar.GetComparisonNameEntry() == nameChar2.GetComparisonNameEntry(), true);
+		TestEqual(TEXT("DisplayIndex"), nameChar.GetDisplayNameEntry() != nameChar2.GetDisplayNameEntry(), true);
+	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FBelugaTextTest, "Beluga.Text", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::EngineFilter)
+
+bool FBelugaTextTest::RunTest(const FString& Parameters)
+{
+	FText helloEUR = FText::FromString("Hello!");
+	FText helloKOR = FText::FromString("안녕하세요");
+	FText nameEUR = FText::FromString("Name");
+
+	// CultureName
+	{
+		TestEqual(TEXT("Diff Lang, Same Meaning"), FInternationalization::Get().GetPrioritizedCultureNames(helloEUR.ToString())
+			== FInternationalization::Get().GetPrioritizedCultureNames(helloKOR.ToString()), true);
+		TestEqual(TEXT("Same Lang, Diff Meaning"), FInternationalization::Get().GetPrioritizedCultureNames(helloEUR.ToString())
+			== FInternationalization::Get().GetPrioritizedCultureNames(nameEUR.ToString()), true);
+
+	}
+
+
+
 	return true;
 }
