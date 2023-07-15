@@ -17,8 +17,8 @@ bool FBelugaVectorTest::RunTest(const FString& Parameters)
 
 	// Cross Product
 	{
-		// (1*1 , 1*2 + 1*3) = (1, 2, 3) = vec
-		TestEqual(TEXT("Cross Product"), FVector::CrossProduct(vec, vec2), vec);
+		// (2*1 - 3*1 , -1*1 + 3*1 , 1*1 - 2*1) = (-1, 2, -1) = vec6
+		TestEqual(TEXT("Cross Product"), FVector::CrossProduct(vec, vec2), FVector(-1, 2, -1));
 	}
 	return true;
 }
@@ -51,7 +51,9 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(FBelugaQuatTest, "Beluga.Quat", EAutomationTest
 
 bool FBelugaQuatTest::RunTest(const FString& Parameters)
 {
-	FQuat quat = FQuat(45,45,45, 0);
+	FQuat quat = FQuat(60,60,60, 0);
+	
+	TestEqual(TEXT("Forward"), quat.GetForwardVector().Normalize(), true);
 
 	return true;
 }
