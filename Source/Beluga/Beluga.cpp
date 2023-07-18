@@ -1,4 +1,5 @@
 #include "BelugaMinimal.h"
+
 DEFINE_LOG_CATEGORY(LogBeluga);
 
 class FBelugaModule : public FDefaultGameModuleImpl
